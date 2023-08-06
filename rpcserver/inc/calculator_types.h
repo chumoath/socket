@@ -21,6 +21,72 @@
 
 namespace Tutorial {
 
+class CalDesc;
+
+typedef struct _CalDesc__isset {
+  _CalDesc__isset() : id(false), op(false), num1(false), num2(false) {}
+  bool id :1;
+  bool op :1;
+  bool num1 :1;
+  bool num2 :1;
+} _CalDesc__isset;
+
+class CalDesc : public virtual ::apache::thrift::TBase {
+ public:
+
+  CalDesc(const CalDesc&);
+  CalDesc& operator=(const CalDesc&);
+  CalDesc() noexcept
+          : id(0),
+            op(),
+            num1(0),
+            num2(0) {
+  }
+
+  virtual ~CalDesc() noexcept;
+  int32_t id;
+  std::string op;
+  int32_t num1;
+  int32_t num2;
+
+  _CalDesc__isset __isset;
+
+  void __set_id(const int32_t val);
+
+  void __set_op(const std::string& val);
+
+  void __set_num1(const int32_t val);
+
+  void __set_num2(const int32_t val);
+
+  bool operator == (const CalDesc & rhs) const
+  {
+    if (!(id == rhs.id))
+      return false;
+    if (!(op == rhs.op))
+      return false;
+    if (!(num1 == rhs.num1))
+      return false;
+    if (!(num2 == rhs.num2))
+      return false;
+    return true;
+  }
+  bool operator != (const CalDesc &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const CalDesc & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot) override;
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const override;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(CalDesc &a, CalDesc &b);
+
+std::ostream& operator<<(std::ostream& out, const CalDesc& obj);
+
 } // namespace
 
 #endif

@@ -36,7 +36,7 @@ namespace Tutorial {
 class CalculatorIf {
  public:
   virtual ~CalculatorIf() {}
-  virtual int32_t ops(const CalDesc& desc) = 0;
+  virtual int32_t add(const int32_t num1, const int32_t num2) = 0;
 };
 
 class CalculatorIfFactory {
@@ -66,43 +66,51 @@ class CalculatorIfSingletonFactory : virtual public CalculatorIfFactory {
 class CalculatorNull : virtual public CalculatorIf {
  public:
   virtual ~CalculatorNull() {}
-  int32_t ops(const CalDesc& /* desc */) override {
+  int32_t add(const int32_t /* num1 */, const int32_t /* num2 */) override {
     int32_t _return = 0;
     return _return;
   }
 };
 
-typedef struct _Calculator_ops_args__isset {
-  _Calculator_ops_args__isset() : desc(false) {}
-  bool desc :1;
-} _Calculator_ops_args__isset;
+typedef struct _Calculator_add_args__isset {
+  _Calculator_add_args__isset() : num1(false), num2(false) {}
+  bool num1 :1;
+  bool num2 :1;
+} _Calculator_add_args__isset;
 
-class Calculator_ops_args {
+class Calculator_add_args {
  public:
 
-  Calculator_ops_args(const Calculator_ops_args&);
-  Calculator_ops_args& operator=(const Calculator_ops_args&);
-  Calculator_ops_args() noexcept {
+  Calculator_add_args(const Calculator_add_args&) noexcept;
+  Calculator_add_args& operator=(const Calculator_add_args&) noexcept;
+  Calculator_add_args() noexcept
+                      : num1(0),
+                        num2(0) {
   }
 
-  virtual ~Calculator_ops_args() noexcept;
-  CalDesc desc;
+  virtual ~Calculator_add_args() noexcept;
+  int32_t num1;
+  int32_t num2;
 
-  _Calculator_ops_args__isset __isset;
+  _Calculator_add_args__isset __isset;
 
-  void __set_desc(const CalDesc& val);
+  void __set_num1(const int32_t val);
 
-  bool operator == (const Calculator_ops_args & rhs) const
+  void __set_num2(const int32_t val);
+
+  bool operator == (const Calculator_add_args & rhs) const
   {
-    if (!(desc == rhs.desc))
+    if (!(num1 == rhs.num1))
+      return false;
+    if (!(num2 == rhs.num2))
       return false;
     return true;
   }
-  bool operator != (const Calculator_ops_args &rhs) const {
+  bool operator != (const Calculator_add_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Calculator_ops_args & ) const;
+  bool operator < (const Calculator_add_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -110,68 +118,69 @@ class Calculator_ops_args {
 };
 
 
-class Calculator_ops_pargs {
+class Calculator_add_pargs {
  public:
 
 
-  virtual ~Calculator_ops_pargs() noexcept;
-  const CalDesc* desc;
+  virtual ~Calculator_add_pargs() noexcept;
+  const int32_t* num1;
+  const int32_t* num2;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Calculator_ops_result__isset {
-  _Calculator_ops_result__isset() : success(false) {}
+typedef struct _Calculator_add_result__isset {
+  _Calculator_add_result__isset() : success(false) {}
   bool success :1;
-} _Calculator_ops_result__isset;
+} _Calculator_add_result__isset;
 
-class Calculator_ops_result {
+class Calculator_add_result {
  public:
 
-  Calculator_ops_result(const Calculator_ops_result&) noexcept;
-  Calculator_ops_result& operator=(const Calculator_ops_result&) noexcept;
-  Calculator_ops_result() noexcept
+  Calculator_add_result(const Calculator_add_result&) noexcept;
+  Calculator_add_result& operator=(const Calculator_add_result&) noexcept;
+  Calculator_add_result() noexcept
                         : success(0) {
   }
 
-  virtual ~Calculator_ops_result() noexcept;
+  virtual ~Calculator_add_result() noexcept;
   int32_t success;
 
-  _Calculator_ops_result__isset __isset;
+  _Calculator_add_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const Calculator_ops_result & rhs) const
+  bool operator == (const Calculator_add_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const Calculator_ops_result &rhs) const {
+  bool operator != (const Calculator_add_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const Calculator_ops_result & ) const;
+  bool operator < (const Calculator_add_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _Calculator_ops_presult__isset {
-  _Calculator_ops_presult__isset() : success(false) {}
+typedef struct _Calculator_add_presult__isset {
+  _Calculator_add_presult__isset() : success(false) {}
   bool success :1;
-} _Calculator_ops_presult__isset;
+} _Calculator_add_presult__isset;
 
-class Calculator_ops_presult {
+class Calculator_add_presult {
  public:
 
 
-  virtual ~Calculator_ops_presult() noexcept;
+  virtual ~Calculator_add_presult() noexcept;
   int32_t* success;
 
-  _Calculator_ops_presult__isset __isset;
+  _Calculator_add_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -202,9 +211,9 @@ class CalculatorClient : virtual public CalculatorIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t ops(const CalDesc& desc) override;
-  void send_ops(const CalDesc& desc);
-  int32_t recv_ops();
+  int32_t add(const int32_t num1, const int32_t num2) override;
+  void send_add(const int32_t num1, const int32_t num2);
+  int32_t recv_add();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -220,11 +229,11 @@ class CalculatorProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (CalculatorProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_ops(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_add(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   CalculatorProcessor(::std::shared_ptr<CalculatorIf> iface) :
     iface_(iface) {
-    processMap_["ops"] = &CalculatorProcessor::process_ops;
+    processMap_["add"] = &CalculatorProcessor::process_add;
   }
 
   virtual ~CalculatorProcessor() {}
@@ -253,13 +262,13 @@ class CalculatorMultiface : virtual public CalculatorIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t ops(const CalDesc& desc) override {
+  int32_t add(const int32_t num1, const int32_t num2) override {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ops(desc);
+      ifaces_[i]->add(num1, num2);
     }
-    return ifaces_[i]->ops(desc);
+    return ifaces_[i]->add(num1, num2);
   }
 
 };
@@ -294,9 +303,9 @@ class CalculatorConcurrentClient : virtual public CalculatorIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t ops(const CalDesc& desc) override;
-  int32_t send_ops(const CalDesc& desc);
-  int32_t recv_ops(const int32_t seqid);
+  int32_t add(const int32_t num1, const int32_t num2) override;
+  int32_t send_add(const int32_t num1, const int32_t num2);
+  int32_t recv_add(const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
